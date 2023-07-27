@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sneaker Store</title>
+  </head>
+
+  <body style="background-color: #1c0e36;">
+  
+    <script>
+    // Variables para almacenar la información del usuario y el carrito
+let user = null;
+let cart = [];
+
+// Función para crear una cuenta nueva
+function crearCuenta() {
+    let usuario = prompt("Ingresa tu nombre de usuario:");
+    let email = prompt("Ingresa tu email:");
+    let pass1 = prompt("Ingresa tu contraseña:");
+    let pass2 = prompt("Ingresa nuevamente tu contraseña:");
+
+    if (pass1 === pass2) {
+        user = {
+            username: usuario,
+            email: email,
+            password: pass1
+        };
+
+        alert("¡Cuenta creada exitosamente!");
+        mostrarProductos();
+    } else {
+        alert("Las contraseñas no coinciden. Intenta nuevamente.");
+        crearCuenta();
+    }
+}
+
+// Función para mostrar los productos disponibles y agregar al carrito
+function mostrarProductos() {
+    let products = [
+        { codigo: 1, descripcion: 'Zapatillas blancas', precio: 50 },
+        { codigo: 2, descripcion: 'Zapatillas negras', precio: 55 },
+        { codigo: 3, descripcion: 'Zapatillas rojas', precio: 60 },
+        { codigo: 4, descripcion: 'Zapatillas azules', precio: 45 },
+        { codigo: 5, descripcion: 'Zapatillas verdes', precio: 50 }
+    ];
+
+    while (true) {
+        let codigoProducto = prompt(
+            "Ingresa el código del producto que deseas comprar:\n" +
+            "1 - Zapatillas blancas\n" +
+            "2 - Zapatillas negras\n" +
+            "3 - Zapatillas rojas\n" +
+            "4 - Zapatillas azules\n" +
+            "5 - Zapatillas verdes"
+        );
+
+        if (codigoProducto === null) {
+            // El usuario presionó "Cancelar", mostrar contenido del carrito
+            mostrarCarrito();
+            break;
+        }
+
+        codigoProducto = parseInt(codigoProducto);
+
+        if (isNaN(codigoProducto) || codigoProducto < 1 || codigoProducto > 5) {
+            alert("Código de producto inválido. Intenta nuevamente.");
+            continue;
+        }
+
+        let talla = prompt("Ingresa la talla de las zapatillas:");
+        let productoSeleccionado = products.find(prod => prod.codigo === codigoProducto);
+
+        if (productoSeleccionado) {
+            cart.push({ producto: productoSeleccionado, talla: talla });
+            alert("Producto agregado al carrito correctamente.");
+        } else {
+            alert("Código de producto no encontrado. Intenta nuevamente.");
+        }
+
+        let continuar = prompt("¿Deseas agregar otro producto al carrito? (s/n)").toLowerCase();
+
+        if (continuar !== 's') {
+            break;
+        }
+    }
+
+    mostrarCarrito();
+}
+
+// Función para mostrar el contenido del carrito
+function mostrarCarrito() {
+    if (cart.length === 0) {
+        alert("El carrito está vacío.");
+    } else {
+        let carritoInfo = "Contenido del carrito:\n";
+
+        for (let item of cart) {
+            carritoInfo += `${item.producto.descripcion} (Talla: ${item.talla}) - Precio: $${item.producto.precio}\n`;
+        }
+
+        alert(carritoInfo);
+    }
+}
+
+// Preguntar si el usuario desea crear una cuenta nueva
+let crearCuentaRespuesta = prompt("¿Deseas crear una cuenta nueva? (s/n)").toLowerCase();
+
+if (crearCuentaRespuesta === 's') {
+    crearCuenta();
+}
+    </script>
+  </body>
+</html>
